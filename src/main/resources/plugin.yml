@@ -1,0 +1,12 @@
+main: me.marius.main.Main
+version: 1.0
+name: MLGRush
+author: Littlq
+
+commands:
+  setup:
+    aliases: [su]
+    description: Setzt diverse Einstellungen
+  start:
+    aliases: [s]
+    description: Verkürzt den Countdown

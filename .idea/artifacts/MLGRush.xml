@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="MLGRush">
+    <output-path>$PROJECT_DIR$/../../../Server/1.8-Bungee/lobby/plugins</output-path>
+    <root id="archive" name="MLGRush.jar">
+      <element id="module-output" name="MLGRush" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/plugin.yml" />
+    </root>
+  </artifact>
+</component>
