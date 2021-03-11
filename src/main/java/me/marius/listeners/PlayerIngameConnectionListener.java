@@ -27,7 +27,6 @@ public class PlayerIngameConnectionListener implements Listener {
         if(!(plugin.getGameStateManager().getCurrentGameState() instanceof IngameState)) return;
         Player p = e.getPlayer();
         e.setJoinMessage("");
-        Utils.clearPlayer(p);
         Utils.setSpectatorItems(p);
         p.sendMessage(Main.prefix + Main.spectator);
 
@@ -37,8 +36,10 @@ public class PlayerIngameConnectionListener implements Listener {
 
         ConfigLocationUtil locationUtil = new ConfigLocationUtil(plugin, "Spawns.Spectator");
         try {
-            if(locationUtil.loadLocation() != null)
+            if(locationUtil.loadLocation() != null) {
                 p.teleport(locationUtil.loadLocation());
+            } else
+                Bukkit.getConsoleSender().sendMessage("[MLGRush] Der Spectator-Spawn wurde noch nicht gesetzt!");
         }catch(IllegalArgumentException ex){
             Bukkit.getConsoleSender().sendMessage("[MLGRush] Der Spectator-Spawn wurde noch nicht gesetzt!");
         }

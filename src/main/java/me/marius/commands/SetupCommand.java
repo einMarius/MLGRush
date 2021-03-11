@@ -40,7 +40,7 @@ public class SetupCommand implements CommandExecutor {
                         try{
                             int spawnNumber = Integer.parseInt(args[1]);
                             if(spawnNumber > 0 && spawnNumber <= LobbyState.MAX_PLAYERS){
-                                new ConfigLocationUtil(plugin, p.getLocation(), "Spawns.Team" + spawnNumber).saveLocation();
+                                ConfigLocationUtil.setSpawnLocation(spawnNumber, p.getLocation());
                                 p.sendMessage(Main.prefix + "Der Spawn für §bTeam " + spawnNumber + " §7wurde gesetzt!");
 
                             } else

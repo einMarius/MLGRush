@@ -1,6 +1,6 @@
 package me.marius.gamestates;
 
-public class EndingeState extends GameState{
+public class EndingState extends GameState{
 
 
     @Override

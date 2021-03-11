@@ -9,11 +9,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public class ConfigLocationUtil {
 
-    private Main plugin;
+    private static Main plugin;
     private Location location;
     private String root;
-    private Location[] spawnLocations = new Location[LobbyState.MAX_PLAYERS];
-    private String name;
+    public static Location[] spawnLocations = new Location[LobbyState.MAX_PLAYERS];
 
     public ConfigLocationUtil(Main plugin, Location location, String root){
         this.plugin = plugin;
@@ -25,10 +24,15 @@ public class ConfigLocationUtil {
         this(plugin, null, root);
     }
 
-    public void setSpawnLocation(int spawnnumber, Location location){
+    public static void setSpawnLocation(int spawnnumber, Location location){
         spawnLocations[spawnnumber-1] = location;
         new ConfigLocationUtil(plugin, location, "Spawns.Team " + spawnnumber).saveLocation();
+    }
 
+    public static void loadSpawnLocations(){
+        for(int i = 0; i < spawnLocations.length; i++){
+            spawnLocations[i] = new ConfigLocationUtil(plugin, "Spawns.Team " + (i + 1)).loadLocation();
+        }
     }
 
     public void saveLocation(){
@@ -53,5 +57,9 @@ public class ConfigLocationUtil {
             return new Location(world, x, y, z, yaw, pitch);
         } else
             return null;
+    }
+
+    public static Location[] getSpawnLocations() {
+        return spawnLocations;
     }
 }

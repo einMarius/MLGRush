@@ -1,7 +1,6 @@
 package me.marius.gamestates;
 
 import me.marius.countdowns.LobbyCountdown;
-import org.bukkit.Bukkit;
 
 public class LobbyState extends GameState{
 
@@ -23,7 +22,6 @@ public class LobbyState extends GameState{
     @Override
     public void stop() {
         System.out.println("[MLGRUSH] LobbyState gestoppt!");
-        Bukkit.broadcastMessage("Going into the IngameState...");
     }
 
     public LobbyCountdown getCountdown(){

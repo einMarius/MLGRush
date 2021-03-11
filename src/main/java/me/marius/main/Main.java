@@ -7,11 +7,10 @@ import me.marius.commands.StartCommand;
 import me.marius.config.ConfigManager;
 import me.marius.gamestates.GameState;
 import me.marius.gamestates.GameStateManager;
-import me.marius.listeners.BlockBreakListener;
 import me.marius.listeners.PlayerIngameConnectionListener;
 import me.marius.listeners.PlayerLobbyConnectionListener;
+import me.marius.listeners.UsefullListeners;
 import org.bukkit.Bukkit;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -42,6 +41,9 @@ public class Main extends JavaPlugin {
     public static String setspawnwrong;
     public static String setspawnnumberwrong;
 
+    private boolean configisrunning;
+    private Thread ConfigThread;
+
     public void onEnable() {
 
         gameStateManager = new GameStateManager(this);
@@ -52,10 +54,39 @@ public class Main extends JavaPlugin {
         cm = new ConfigManager();
         cm.register();
 
+        configisrunning = !configisrunning;
+
+        if (configisrunning) {
+            new Thread() {
+                @Override
+                public void run() {
+
+                    super.run();
+
+                    while (configisrunning) {
+
+                        try {
+                            Thread.sleep(100);
+                        }catch(InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                            System.out.println("[ReportSystem] Thread was interrupted, Failed to complete operation");
+                        }
+
+                        ConfigThread = Thread.currentThread();
+
+                        cm.register();
+
+                        ConfigThread.interrupt();
+                        configisrunning = false;
+                    }
+                }
+            }.start();
+        }
+
         getCommand("setup").setExecutor(new SetupCommand(this));
         getCommand("start").setExecutor(new StartCommand(this));
         Bukkit.getPluginManager().registerEvents(new PlayerLobbyConnectionListener(this), this);
-        Bukkit.getPluginManager().registerEvents(new BlockBreakListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new UsefullListeners(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerIngameConnectionListener(this), this);
 
 // -------------------------------
@@ -68,8 +99,6 @@ public class Main extends JavaPlugin {
     }
 
     public void onDisable() {
-
-        cm.saveCfg();
 
 // -------------------------------
         System.out.println("----------[MLGRush]----------");
